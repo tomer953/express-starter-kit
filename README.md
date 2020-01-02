@@ -9,7 +9,7 @@
 - custom error handler for manage exceptions
 - [request-promise](https://www.npmjs.com/package/request-promise) for creating HTTP requests with Promise support
 - [shelljs](https://www.npmjs.com/package/shelljs) for running shell scripts
+- [mongodb](https://www.npmjs.com/package/mongodb) + [mongoose](https://www.npmjs.com/package/mongoose)
 
 **coming soon:**
-- [mongodb](https://www.npmjs.com/package/mongodb) + [mongoose](https://www.npmjs.com/package/mongoose)
 - [pm2](https://www.npmjs.com/package/pm2) - production process manager for Node.js applications

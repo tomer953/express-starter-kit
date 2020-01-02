@@ -1,3 +1,3 @@
-exports.getDogs = function getDogs() {
-    throw new Error("Error from get dogs");
+exports.getDogs = function (req, res, next) {
+    next(new Error("Error from get dogs"));
 }

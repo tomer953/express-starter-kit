@@ -1,42 +1,69 @@
+const Cat = require('../models/cat');
 
-// function to get cats from db \ another async source
-exports.getCats = async function getCats() {
-
-    let x = 2;
-
-    // first async call
-    x = await cube(x);
-
-    // anoter async call
-    x = await square(x);
-
-    // final async call
-    return await getNCats(x);
+// get all cats
+exports.getCats = async function (req, res, next) {
+    try {
+        const cats = await Cat.find()
+        res.json({ cats });
+    } catch (err) {
+        next(err);
+    }
 }
 
-// some async functions
-
-function getNCats(n) {
-    return new Promise(resolve => {
-        setTimeout(() => {
-            let ans = [...Array(n).keys()];
-            ans.forEach((o,i,a) => a[i] = 'Cat_' + i);
-            resolve(ans);
-        }, 1000);
-    });
+// create new cat
+exports.createCat = async function (req, res, next) {
+    try {
+        const cat = new Cat(req.body);
+        const newCat = await cat.save()
+        res.status(201).json(newCat)
+    } catch (err) {
+        next(err);
+    }
 }
 
-function square(x) {
-    return new Promise(resolve => {
-        setTimeout(() => {
-            resolve(Math.pow(x, 2));
-        }, 1000);
-    });
+// update cat
+exports.updateCat = async function (req, res, next) {
+    try {
+        // update the fields that came from request
+        if (req.body.name != null) {
+            res.cat.name = req.body.name;
+        }
+        if (req.body.age != null) {
+            res.cat.age = req.body.age;
+        }
+        if (req.body.status != null) {
+            res.cat.status = req.body.status;
+        }
+
+        const updatedCat = await res.cat.save()
+        res.json(updatedCat)
+    } catch (err) {
+        next(err);
+    }
 }
-function cube(x) {
-    return new Promise(resolve => {
-        setTimeout(() => {
-            resolve(Math.pow(x, 3));
-        }, 1000);
-    });
+
+// delete cat
+exports.deleteCat = async function (req, res, next) {
+    try {
+        await res.cat.remove()
+        res.json({ message: 'Deleted' })
+    } catch (err) {
+        next(err);
+    }
+}
+
+// Middleware function for gettig object by ID
+exports.getCat = async function (req, res, next) {
+    try {
+        cat = await Cat.findById(req.params.id);
+        if (cat == null) {
+            let err = new Error("Not found");
+            err.statusCode = 404;
+            next(err);
+        }
+        res.cat = cat;
+        next();
+    } catch (err) {
+        next(err);
+    }
 }
