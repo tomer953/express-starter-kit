@@ -1,5 +1,6 @@
 
 // function to get cats from db \ another async source
+// note: when we call this func, we need to use try/catch blocks
 exports.getCats = async function getCats() {
 
     let x = 2;
